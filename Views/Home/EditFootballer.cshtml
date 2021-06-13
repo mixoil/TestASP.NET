@@ -1,0 +1,72 @@
+﻿@model TestASP.NET.Models.Footballer
+@{
+    ViewData["Title"] = "Редактирование";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label">Id: @ViewBag.Footballer.Id</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Имя:</label>
+                <input asp-for="Name" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label">Фамилия:</label>
+                <input asp-for="Surname" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Surname" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Пол:</label>
+                <input asp-for="Gender" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Gender" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label">Дата рождения:</label>
+                <input type="date" asp-for="DateOfBirth" class="form-control" value="@ViewBag.Footballer.DateOfBirth.ToString("yyyy-MM-dd")" max="2021-01-01"/>
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Team" class="control-label">Команда:</label>
+                <input type="text" asp-for="Team" name="Team" list="teamname" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Team" >
+                <datalist id="teamname">
+                    @foreach (var team in ViewBag.Teams)
+                    {
+                        <option value="@team">@team</option>
+                    }
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label">Страна:</label>
+                <select asp-for="Country" name="Country" class="form-control">
+                    @foreach (var country in ViewBag.Countries)
+                    {
+                        @if (country.Key == ViewBag.Footballer.Country.ToString())
+                        {
+                            <option selected value="@country.Key">@country.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@country.Key">@country.Value</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="FootballersList">Вернуться к списку</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

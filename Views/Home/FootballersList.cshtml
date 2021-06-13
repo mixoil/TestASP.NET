@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TestASP.NET.Models.Footballer>
+@{
+    ViewData["Title"] = "Список футболистов";
+}
+<h1>@ViewData["Title"]</h1><!--asp-route-sortOrder =-->
+<table class="table">
+    <tr>
+        <th>
+            <a>
+                Id
+            </a>
+        </th>
+        <th>
+            <a>
+                Имя
+            </a>
+        </th>
+        <th>
+            <a>
+                Фамилия
+            </a>
+        </th>
+        <th>
+            <a>
+                Пол
+            </a>
+        </th>
+        <th>
+            <a>
+                Дата рождения
+            </a>
+        </th>
+        <th>
+            <a>
+                Команда
+            </a>
+        </th>
+        <th>
+            <a>
+                Страна
+            </a>
+        </th>
+    </tr>
+    @foreach (Footballer f in Model)
+    {
+        <tr class="table-row"><td>@f.Id</td><td>@f.Name</td><td>@f.Surname</td><td>@f.Gender</td>
+    <td>@f.DateOfBirth.ToShortDateString()</td><td>@f.Team</td><td>@ViewBag.Countries[f.Country.ToString()]</td><td>
+            @Html.ActionLink("Редактировать", "EditFootballer", "Home", new { id = f.Id }, null)
+        </td></tr>
+    }
+</table>

@@ -1,0 +1,57 @@
+﻿@model TestASP.NET.Models.Footballer;
+@{
+    ViewData["Title"] = "Добавить футболиста";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Имя:</label><br />
+                <input type="text" asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  asp-for="Surname" class="control-label">Фамилия:</label><br />
+                <input type="text" asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label">Пол:</label><br />
+                <input type="text" asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label">Дата рождения:</label><br />
+                <input type="date" asp-for="DateOfBirth" class="form-control" max="2021-01-01"/>
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Team" class="control-label">Команда:</label><br />
+                <input type="text" asp-for="Team" name="Team" list="teamname" class="form-control" autocomplete="off">
+                <datalist id="teamname">
+                    @foreach (var team in ViewBag.Teams)
+                    {
+                        <option value="@team">@team</option>
+                    }
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country" class="control-label">Страна:</label><br />
+                <select asp-for="Country" name="Country" class="form-control">
+                    @foreach (var country in ViewBag.Countries)
+                    {
+                        <option value="@country.Key">@country.Value</option>
+                    }
+                </select>
+            </div>
+            <input type="submit" value="Отправить" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+    @section scripts{
+
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    }
