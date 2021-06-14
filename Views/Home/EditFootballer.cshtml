@@ -22,23 +22,36 @@
             </div>
             <div class="form-group">
                 <label asp-for="Gender" class="control-label">Пол:</label>
-                <input asp-for="Gender" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Gender" />
+                <select asp-for="Gender" name="Gender" class="form-control">
+                    @foreach (var gender in ViewBag.Genders)
+                    {
+                        @if (gender.Key == ViewBag.Footballer.Gender)
+                        {
+                            <option selected value="@gender.Key">@gender.Value</option>
+                        }
+                        else
+                        {
+                            <option value="@gender.Key">@gender.Value</option>
+                        }
+                    }
+                </select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label">Дата рождения:</label>
-                <input type="date" asp-for="DateOfBirth" class="form-control" value="@ViewBag.Footballer.DateOfBirth.ToString("yyyy-MM-dd")" max="2021-01-01"/>
+                <input type="date" asp-for="DateOfBirth" class="form-control" value="@ViewBag.Footballer.DateOfBirth.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")"/>
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Team" class="control-label">Команда:</label>
-                <input type="text" asp-for="Team" name="Team" list="teamname" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Team" >
+                <input type="text" asp-for="Team" name="Team" list="teamname" class="form-control" autocomplete="off" value="@ViewBag.Footballer.Team">
                 <datalist id="teamname">
                     @foreach (var team in ViewBag.Teams)
                     {
                         <option value="@team">@team</option>
                     }
                 </datalist>
+                <span asp-validation-for="Team" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Country" class="control-label">Страна:</label>
@@ -55,6 +68,7 @@
                         }
                     }
                 </select>
+                <span asp-validation-for="Country" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Сохранить" class="btn btn-primary" />

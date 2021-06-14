@@ -19,7 +19,7 @@ namespace TestASP.NET.Models
         public DateTime DateOfBirth { get; set; }
         [Required(ErrorMessage = "Не указана команда")]
         public string Team { get; set; }
-        //[Required(ErrorMessage = "Не указана страна")]
-        public Country Country { get; set; }
+        [Required(ErrorMessage = "Не указана страна")]
+        public string Country { get; set; }
     }
 }

@@ -20,6 +20,11 @@ namespace TestASP.NET.Controllers
             {"Italy", "Италия" },
             {"Russia", "Россия" }
         };
+        private Dictionary<string, string> genders = new Dictionary<string, string>()
+        {
+            {"Male", "Мужской" },
+            {"Female", "Женский" },
+        };
 
         public HomeController(ApplicationContext context)
         {
@@ -30,6 +35,7 @@ namespace TestASP.NET.Controllers
         public IActionResult AddFootballer()
         {
             ViewBag.Countries = countries;
+            ViewBag.Genders = genders;
             ViewBag.Teams = db.Footballers.Select(f => f.Team).Distinct();
             return View();
         }
@@ -52,6 +58,7 @@ namespace TestASP.NET.Controllers
         public IActionResult EditFootballer(int id)
         {
             ViewBag.Countries = countries;
+            ViewBag.Genders = genders;
             ViewBag.Teams = db.Footballers.Select(f => f.Team).Distinct();
             ViewBag.Footballer = db.Footballers.Find(id);
             return View();
@@ -80,6 +87,7 @@ namespace TestASP.NET.Controllers
         public async Task<IActionResult> FootballersList()
         {
             ViewBag.Countries = countries;
+            ViewBag.Genders = genders;
             return View(await db.Footballers.ToListAsync());
         }
 

@@ -43,8 +43,8 @@
     </tr>
     @foreach (Footballer f in Model)
     {
-        <tr class="table-row"><td>@f.Id</td><td>@f.Name</td><td>@f.Surname</td><td>@f.Gender</td>
-    <td>@f.DateOfBirth.ToShortDateString()</td><td>@f.Team</td><td>@ViewBag.Countries[f.Country.ToString()]</td><td>
+        <tr class="table-row"><td>@f.Id</td><td>@f.Name</td><td>@f.Surname</td><td>@ViewBag.Genders[f.Gender]</td>
+    <td>@f.DateOfBirth.ToShortDateString()</td><td>@f.Team</td><td>@ViewBag.Countries[f.Country]</td><td>
             @Html.ActionLink("Редактировать", "EditFootballer", "Home", new { id = f.Id }, null)
         </td></tr>
     }
