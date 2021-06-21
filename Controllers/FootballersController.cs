@@ -8,34 +8,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TestASP.NET.Models;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.SignalR;
 
 namespace TestASP.NET.Controllers
 {
-    public class HomeController : Controller
+    public class FootballersController : Controller
     {
         private ApplicationContext db;
-        private Dictionary<string, string> countries = new Dictionary<string, string>()
-        {
-            {"USA", "США" },
-            {"Italy", "Италия" },
-            {"Russia", "Россия" }
-        };
-        private Dictionary<string, string> genders = new Dictionary<string, string>()
-        {
-            {"Male", "Мужской" },
-            {"Female", "Женский" },
-        };
+        private IHubContext<FootballersHub> hub;
 
-        public HomeController(ApplicationContext context)
+        public FootballersController(ApplicationContext context, IHubContext<FootballersHub> hub)
         {
+            this.hub = hub;
             db = context;
+        }
+
+        [HttpGet]
+        public IActionResult GetFootballersTableContent()
+        {
+            return PartialView("_FootballersTableContent", db.Footballers.ToList());
         }
 
         [HttpGet]
         public IActionResult AddFootballer()
         {
-            ViewBag.Countries = countries;
-            ViewBag.Genders = genders;
             ViewBag.Teams = db.Footballers.Select(f => f.Team).Distinct();
             return View();
         }
@@ -47,6 +44,7 @@ namespace TestASP.NET.Controllers
             {
                 db.Footballers.Add(footballer);
                 await db.SaveChangesAsync();
+                await hub.Clients.All.SendAsync("UpdatePage");
                 return RedirectToAction("FootballersList");
             }
             else
@@ -57,11 +55,9 @@ namespace TestASP.NET.Controllers
         [Route("~/EditFootballer")]
         public IActionResult EditFootballer(int id)
         {
-            ViewBag.Countries = countries;
-            ViewBag.Genders = genders;
             ViewBag.Teams = db.Footballers.Select(f => f.Team).Distinct();
-            ViewBag.Footballer = db.Footballers.Find(id);
-            return View();
+            var footballer = db.Footballers.Find(id);
+            return View(footballer);
         }
 
        [HttpPost]
@@ -73,9 +69,10 @@ namespace TestASP.NET.Controllers
                 var dbFootballer = db.Footballers.SingleOrDefault(f => f.Id == footballer.Id);
                 if(dbFootballer != null)
                 {
-                    foreach(var prop in typeof(Footballer).GetProperties())
+                    foreach(var prop in typeof(Footballer).GetProperties().Where(p => p.Name != "Id"))
                         prop.SetValue(dbFootballer, prop.GetValue(footballer));
                     await db.SaveChangesAsync();
+                    await hub.Clients.All.SendAsync("UpdatePage");
                 }
                 return RedirectToAction("FootballersList");
             }
@@ -83,12 +80,9 @@ namespace TestASP.NET.Controllers
                 return View(footballer);
         }
 
-        [Route("~/FootballersList")]
-        public async Task<IActionResult> FootballersList()
+        public IActionResult FootballersList()
         {
-            ViewBag.Countries = countries;
-            ViewBag.Genders = genders;
-            return View(await db.Footballers.ToListAsync());
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

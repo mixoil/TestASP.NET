@@ -29,6 +29,7 @@ namespace TestASP.NET
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connection));
             services.AddControllersWithViews();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +56,8 @@ namespace TestASP.NET
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=AddFootballer}/{id?}");
+                    pattern: "{controller=Footballers}/{action=AddFootballer}/{id?}");
+                endpoints.MapHub<FootballersHub>("/FootballersList");
             });
         }
     }

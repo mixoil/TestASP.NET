@@ -1,0 +1,17 @@
+﻿@model IEnumerable<TestASP.NET.Models.Footballer>
+
+@foreach (Footballer f in Model)
+{
+    <tr class="table-row">
+        <td>@f.Id</td>
+        <td>@f.Name</td>
+        <td>@f.Surname</td>
+        <td>@f.Gender.GetDisplayName()</td>
+        <td>@f.DateOfBirth.ToShortDateString()</td>
+        <td>@f.Team</td>
+        <td>@f.Country.GetDisplayName()</td>
+        <td>
+            @Html.ActionLink("Редактировать", "EditFootballer", "Footballers", new { id = f.Id }, null)
+        </td>
+    </tr>
+}

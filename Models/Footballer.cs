@@ -14,12 +14,12 @@ namespace TestASP.NET.Models
         [Required (ErrorMessage = "Не указана фамилия")]
         public string Surname { get; set; }
         [Required(ErrorMessage = "Не указан пол")]
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
         [Required(ErrorMessage = "Не указана дата рождения")]
         public DateTime DateOfBirth { get; set; }
         [Required(ErrorMessage = "Не указана команда")]
         public string Team { get; set; }
         [Required(ErrorMessage = "Не указана страна")]
-        public string Country { get; set; }
+        public Country Country { get; set; }
     }
 }

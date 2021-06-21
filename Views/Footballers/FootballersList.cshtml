@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Список футболистов";
+}
+<h1>@ViewData["Title"]</h1><!--asp-route-sortOrder =-->
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>
+                    Id
+                </a>
+            </th>
+            <th>
+                <a>
+                    Имя
+                </a>
+            </th>
+            <th>
+                <a>
+                    Фамилия
+                </a>
+            </th>
+            <th>
+                <a>
+                    Пол
+                </a>
+            </th>
+            <th>
+                <a>
+                    Дата рождения
+                </a>
+            </th>
+            <th>
+                <a>
+                    Команда
+                </a>
+            </th>
+            <th>
+                <a>
+                    Страна
+                </a>
+            </th>
+            <th>
+                <a>
+                    Редактирование
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+</table>
+@section scripts{ 
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/footballersList.js"></script>
+}
